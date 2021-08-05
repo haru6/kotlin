@@ -1,11 +1,10 @@
 package com.squadra.kotlin.controller
 
-import com.squadra.kotlin.adapter.ProdutoAdapter
 import com.squadra.kotlin.TO.ProdutoTO
+import com.squadra.kotlin.adapter.ProdutoAdapter
 import com.squadra.kotlin.model.Produto
 import com.squadra.kotlin.service.ProdutoService
 import io.swagger.annotations.ApiOperation
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
@@ -13,24 +12,21 @@ import java.net.URI
 
 @RestController()
 @RequestMapping("/api/v1/produto")
-class ProdutoController {
-
-    @Autowired
-    lateinit var produtoService: ProdutoService
-
-    @Autowired
-    lateinit var produtoAdapter: ProdutoAdapter
+class ProdutoController (
+    private val produtoService: ProdutoService,
+    private val produtoAdapter: ProdutoAdapter
+    ){
 
     @GetMapping()
     @ApiOperation("retorna uma lista de produtos")
     fun listarTodos(): ResponseEntity<List<ProdutoTO>>{
-        return ResponseEntity.ok(produtoAdapter.listaProdutosParaTO(produtoService.listarProdutos()))
+        return ResponseEntity.ok(produtoAdapter.listaMap(produtoService.listarProdutos()))
     }
 
     @GetMapping("/{id}")
     @ApiOperation("retorna um produto")
     fun obter(@PathVariable id: Long): ResponseEntity<ProdutoTO> {
-        return ResponseEntity.ok(produtoAdapter.produtoParaTO(produtoService.obterProduto(id)))
+        return ResponseEntity.ok(produtoAdapter.map(produtoService.obterProduto(id)))
     }
 
     @PostMapping()

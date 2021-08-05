@@ -2,13 +2,15 @@ package com.squadra.kotlin.adapter
 
 import com.squadra.kotlin.TO.ProdutoTO
 import com.squadra.kotlin.model.Produto
+import org.springframework.stereotype.Component
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
 
-class ProdutoAdapter{
+@Component
+class ProdutoAdapter: Mapper<Produto, ProdutoTO>{
 
-    fun produtoParaTO(produto: Produto): ProdutoTO {
+    override fun map(produto: Produto): ProdutoTO {
         var produtoTO = ProdutoTO(produto.id, produto.preco, produto.nome, produto.descricao, formatarData(produto.dataValidade),
                 produto.promocional
         )
@@ -19,9 +21,9 @@ class ProdutoAdapter{
         return produtoTO
     }
 
-    fun listaProdutosParaTO(produtos: List<Produto>) : List<ProdutoTO> {
+    override fun listaMap(produtos: List<Produto>): List<ProdutoTO> {
         var produtosTO : MutableList<ProdutoTO> = ArrayList()
-        produtos.forEach{ produto ->  produtosTO.add(produtoParaTO(produto)) }
+        produtos.forEach{ produto ->  produtosTO.add(map(produto)) }
         return produtosTO
     }
 
