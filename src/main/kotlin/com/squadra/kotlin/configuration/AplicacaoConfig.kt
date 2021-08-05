@@ -8,8 +8,9 @@ import org.springframework.context.annotation.Configuration
 class AplicacaoConfig {
 
     @Bean
-    fun produtoAdapter (): ProdutoAdapter{
+    fun produtoAdapter(): ProdutoAdapter {
         var produto = ProdutoAdapter()
         return produto
     }
+
 }
